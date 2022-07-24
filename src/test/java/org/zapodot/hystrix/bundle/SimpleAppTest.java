@@ -11,7 +11,7 @@ import org.junit.Test;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class SimpleAppTest {
 
@@ -27,7 +27,6 @@ public class SimpleAppTest {
         final Response eventResponse = client.target(String.format("http://localhost:%d%s",
                                                                    APP_RULE.getAdminPort(),
                                                                    HystrixBundle.DEFAULT_STREAM_PATH)).request().options();
-        assertThat(eventResponse.getStatus()).isEqualTo(HttpStatus.SC_OK);
-
+        assertEquals(HttpStatus.SC_OK, eventResponse.getStatus());
     }
 }

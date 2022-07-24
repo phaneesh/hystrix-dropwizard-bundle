@@ -1,6 +1,7 @@
 package org.zapodot.hystrix.bundle;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.health.HealthCheckRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterators;
 import com.netflix.hystrix.contrib.codahalemetricspublisher.HystrixCodaHaleMetricsPublisher;
@@ -34,11 +35,12 @@ public class HystrixBundleTest {
 
     @Before
     public void setUp() throws Exception {
+        configuration = new Configuration();
         environment = new Environment(getClass().getName(),
                                       new ObjectMapper(),
-                                      Validation.buildDefaultValidatorFactory().getValidator(),
+                                      Validation.buildDefaultValidatorFactory(),
                                       new MetricRegistry(),
-                                      getClass().getClassLoader());
+                                      getClass().getClassLoader(), new HealthCheckRegistry(), configuration);
 
     }
 
