@@ -9,20 +9,24 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 public class App extends Application<AppConfiguration> {
 
-    @Override
-    public void initialize(final Bootstrap<AppConfiguration> bootstrap) {
-        bootstrap.addBundle(HystrixBundle.withDefaultSettings());
-    }
+  @Override
+  public void initialize(final Bootstrap<AppConfiguration> bootstrap) {
+    bootstrap.addBundle(HystrixBundle.<AppConfiguration>withDefaultSettings());
+  }
 
-    @Override
-    public void run(final AppConfiguration configuration, final Environment environment) throws Exception {
-        environment.healthChecks().register("dummy", new HealthCheck() {
-            @Override
-            protected Result check() throws Exception {
+  @Override
+  public void run(final AppConfiguration configuration, final Environment environment)
+      throws Exception {
+    environment
+        .healthChecks()
+        .register(
+            "dummy",
+            new HealthCheck() {
+              @Override
+              protected Result check() throws Exception {
                 return Result.healthy();
-            }
-        });
-        environment.getApplicationContext().addServlet(new ServletHolder(new PingServlet()), "/ping");
-
-    }
+              }
+            });
+    environment.getApplicationContext().addServlet(new ServletHolder(new PingServlet()), "/ping");
+  }
 }

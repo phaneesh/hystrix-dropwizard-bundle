@@ -26,7 +26,6 @@ public class HystrixBundle<T extends Configuration> implements ConfiguredBundle<
     static final String DEFAULT_STREAM_PATH = "/hystrix.stream";
     static final boolean DEFAULT_PUBLISH_HYSTRIX_METRICS = true;
     static final String SERVLET_NAME = "hystrixMetricsStream";
-    static final MetricsPublishPredicate DEFAULT_PUBLISH_PREDICATE = c -> DEFAULT_PUBLISH_HYSTRIX_METRICS;
     private static final Logger logger = LoggerFactory.getLogger(HystrixBundle.class);
 
     private final String adminStreamPath;
@@ -34,7 +33,7 @@ public class HystrixBundle<T extends Configuration> implements ConfiguredBundle<
     private final MetricsPublishPredicate publishPredicate;
 
     public HystrixBundle() {
-        this(DEFAULT_STREAM_PATH, null, DEFAULT_PUBLISH_PREDICATE);
+        this(DEFAULT_STREAM_PATH, null, c -> DEFAULT_PUBLISH_HYSTRIX_METRICS);
     }
 
     /**
@@ -130,7 +129,7 @@ public class HystrixBundle<T extends Configuration> implements ConfiguredBundle<
     public static class Builder {
         private String adminPath = DEFAULT_STREAM_PATH;
         private String applicationPath;
-        private MetricsPublishPredicate metricsPublishPredicate = DEFAULT_PUBLISH_PREDICATE;
+        private MetricsPublishPredicate metricsPublishPredicate = c -> DEFAULT_PUBLISH_HYSTRIX_METRICS;
 
         /**
          * Configure the path that the HystrixMetricsStreamServlet will be mapped to in the admin context
